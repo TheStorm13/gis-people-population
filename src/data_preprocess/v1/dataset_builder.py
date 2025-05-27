@@ -8,9 +8,9 @@ import rasterio
 from shapely import wkb
 from tqdm import tqdm
 
-from src.data_process.data_handlers.poi_handler import POIHandler
-from src.data_process.data_handlers.road_network_handler import RoadNetworkHandler
-from src.data_process.data_handlers.water_system_handler import WaterSystemHandler
+from src.data_process.v1.data_handlers.poi_handler import POIHandler
+from src.data_process.v1.data_handlers import RoadNetworkHandler
+from src.data_process.v1.data_handlers import WaterSystemHandler
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -20,9 +20,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # Пути к данным
-BUILDINGS_PATH = "../../data/buildings/Buildings_Linan (1).shp"
-RASTER_PATH = "../../data/population/chn_ppp_2020_UNadj_constrained.tif"
-OUTPUT_PATH = "../../data/processed/processed_buildings.parquet"
+BUILDINGS_PATH = "../../../data/v1/buildings/Buildings_Linan (1).shp"
+RASTER_PATH = "../../../data/v1/population/chn_ppp_2020_UNadj_constrained.tif"
+OUTPUT_PATH = "../../../data/processed/processed_buildings.parquet"
 
 # Параметры обработки
 CHUNK_SIZE = 1000

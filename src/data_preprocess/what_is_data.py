@@ -52,12 +52,27 @@ def find_and_process_tif(root_dir='.'):
     print("Population Data\n")
     print("Path: ../../data/population/chn_ppp_2020_UNadj_constrained.tif\n")
 
-    file_path = "../../data/population/chn_ppp_2020_UNadj_constrained.tif"
+    file_path = "../../data/v1/population/chn_ppp_2020_UNadj_constrained.tif"
 
     with rasterio.open(file_path) as src:
         print("Meta:", src.meta)  # Метаданные растрового файла
 
+def find_and_process_geojson(root_dir='.'):
+    print("-----------------------------------------------")
+    print("GEO Data\n")
+
+    file_path = "../../data/v2/samara_people_model.geojson"
+
+    data = gpd.read_file(file_path)
+    print("Атрибуты:", list(data.columns))
+    print("\nПервые строки данных:")
+    print(data.head())
+    print("\nCRS:", data.crs)
+    print("\nКоличество объектов:", len(data))
+    print("\n")
+
 
 if __name__ == "__main__":
-    find_and_process_shp_files()
-    find_and_process_tif()
+    # find_and_process_shp_files()
+    # find_and_process_tif()
+    find_and_process_geojson()
