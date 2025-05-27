@@ -3,10 +3,7 @@ from typing import Optional
 
 import geopandas as gpd
 import numpy as np
-import pandas as pd
-from shapely.geometry import Point, box
 from scipy.spatial import cKDTree
-from shapely import points
 
 
 class WaterSystemHandler:
@@ -62,7 +59,8 @@ class WaterSystemHandler:
                 - nearest_water_dist — расстояние до ближайшего водного объекта
         """
         if self.water_polygons is None:
-            raise ValueError("Данные о водной системе не загружены. Вызовите load_water_system() или set_water_polygons().")
+            raise ValueError(
+                "Данные о водной системе не загружены. Вызовите load_water_system() или set_water_polygons().")
 
         if buildings.crs is None:
             raise ValueError("GeoDataFrame зданий должен иметь CRS.")

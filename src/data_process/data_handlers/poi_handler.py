@@ -1,8 +1,7 @@
 import glob
 import os
-from typing import Optional, Dict
-
 from concurrent.futures import ThreadPoolExecutor
+from typing import Optional, Dict
 
 import geopandas as gpd
 import pandas as pd

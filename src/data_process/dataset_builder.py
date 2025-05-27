@@ -8,7 +8,6 @@ import rasterio
 from shapely import wkb
 from tqdm import tqdm
 
-from src.data_process.data_handlers.area_handler import AreaHandler
 from src.data_process.data_handlers.poi_handler import POIHandler
 from src.data_process.data_handlers.road_network_handler import RoadNetworkHandler
 from src.data_process.data_handlers.water_system_handler import WaterSystemHandler
@@ -122,14 +121,10 @@ def load_properties_data(buildings: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     buildings = road_handler.add_road_features_to_buildings(buildings, buffer_radius=500)
     logger.info("Добавлены признаки дорожной сети к зданиям.")
 
-
-
     return buildings
 
 
 def main():
-
-
     logger.info("Загрузка данных зданий...")
     buildings = gpd.read_file(BUILDINGS_PATH)
 

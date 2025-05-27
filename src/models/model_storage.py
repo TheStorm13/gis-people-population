@@ -1,19 +1,20 @@
-import os
+import hashlib
 from datetime import datetime
 from pathlib import Path
 
 import joblib
 
 
-class ModelManager:
-    def __init__(self, models_root="../../embeddings"):
+class ModelStorage:
+    def __init__(self, model_params, models_root="../../embeddings"):
+        self.params_hash = self.params_to_hash(model_params)
         self.models_root = Path(models_root)
         self.models_root.mkdir(exist_ok=True)
 
     def save_model(self, model, model_name):
         """Сохраняет модель и метаданные"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        model_dir = self.models_root / f"{model_name}_{timestamp}"
+        model_dir = self.models_root / f"{model_name}_{self.params_hash}"
         model_dir.mkdir(exist_ok=True)
 
         # Сохраняем модель
@@ -25,6 +26,7 @@ class ModelManager:
             'timestamp': timestamp,
             'model_name': model_name,
             'model_type': str(type(model)),
+            'params_hash': self.params_hash,
         }
         if hasattr(model, 'best_params_'):
             metadata['best_params'] = model.best_params_
@@ -53,3 +55,7 @@ class ModelManager:
         except Exception as e:
             print(f"Error loading model: {e}")
             return None
+
+    def params_to_hash(self, params):
+        param_str = str(sorted(params.items()))
+        return hashlib.md5(param_str.encode()).hexdigest()[:8]
