@@ -57,6 +57,7 @@ def find_and_process_tif(root_dir='.'):
     with rasterio.open(file_path) as src:
         print("Meta:", src.meta)  # Метаданные растрового файла
 
+
 def find_and_process_geojson(root_dir='.'):
     print("-----------------------------------------------")
     print("GEO Data\n")

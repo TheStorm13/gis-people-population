@@ -1,11 +1,9 @@
-from sklearn.ensemble import GradientBoostingRegressor
-
-from ..models.gradient_boosting_model import GradientBoostingModel
-from ..models.lasso_model import LassoModel
-from ..models.linear_regression_model import LinearRegressionModel
-from ..models.random_forest_model import RandomForestModel
-from ..models.svr_model import SVRModel
-from ..models.xgboost_model import XGBoostModel
+from src.models.gradient_boosting_model import GradientBoostingModel
+from src.models.lasso_model import LassoModel
+from src.models.linear_regression_model import LinearRegressionModel
+from src.models.random_forest_model import RandomForestModel
+from src.models.svr_model import SVRModel
+from src.models.xgboost_model import XGBoostModel
 
 
 class ModelFactory:

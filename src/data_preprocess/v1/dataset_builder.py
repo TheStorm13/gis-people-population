@@ -6,11 +6,10 @@ import geopandas as gpd
 import pandas as pd
 import rasterio
 from shapely import wkb
-from tqdm import tqdm
-
-from src.data_process.v1.data_handlers.poi_handler import POIHandler
 from src.data_process.v1.data_handlers import RoadNetworkHandler
 from src.data_process.v1.data_handlers import WaterSystemHandler
+from src.data_process.v1.data_handlers.poi_handler import POIHandler
+from tqdm import tqdm
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)

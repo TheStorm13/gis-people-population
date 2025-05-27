@@ -1,5 +1,7 @@
 from sklearn.linear_model import LassoCV, Lasso
-from .base_model import BaseModel
+
+from src.models.base_model import BaseModel
+
 
 class LassoModel(BaseModel):
     def __init__(self, model_storage):

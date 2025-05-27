@@ -1,13 +1,15 @@
 from config import Config
 from src.core.evaluator import ModelEvaluator
-from src.models.lasso_model import LassoModel
-from src.models.random_forest_model import RandomForestModel
+from src.core.model_factory import ModelFactory
 from src.storage.data_loader import DataLoader
 from src.storage.data_preprocessor import DataPreprocessor
 from src.storage.model_storage import ModelStorage
+
 from src.utils.drawer import Drawer
 
-def main():
+
+def run_standard_models():
+    """Запуск стандартного набора моделей"""
     try:
         Config.ensure_logs_directory_exists()
 
@@ -25,41 +27,59 @@ def main():
 
         preprocessor.print_data_stats(y_true)
 
-        # Инициализация моделей
-        model_storage = ModelStorage(Config.RF_PARAMS)
+        # Инициализация хранилища моделей
+        model_storage = ModelStorage()
 
-        # Обучение и оценка RandomForest
-        rf_model = RandomForestModel(model_storage, Config.RF_PARAMS)
-        best_params = rf_model.train_with_gridsearch(X_train, y_train)
-        print('\nbest parameters:', best_params)
+        # Список моделей для запуска
+        models_to_run = [
+            ('random_forest', Config.get_model_params('random_forest')),
+            ('lasso', Config.get_model_params('lasso')),
+            ('linear_regression', Config.get_model_params('linear_regression')),
+            ('xgboost', Config.get_model_params('xgboost')),
+            ('gradient_boosting', Config.get_model_params('gradient_boosting')),
+            #('svr', Config.get_model_params('svr'))
+        ]
 
-        rf_model.train(X_train, y_train)
-        rfy_pred = ModelEvaluator.evaluate(rf_model, X_sc, y_true, "RandomForest")
-        ModelEvaluator.save_results(
-            rfy_pred, y_true,
-            rf_model.get_feature_importances(),
-            prefix='rf'
-        )
-        ModelEvaluator.print_prediction_stats(rfy_pred, y_true, "RF")
+        results = {}
 
-        # Обучение и оценка Lasso
-        lasso_model = LassoModel(model_storage)
-        lasso_model.train(X_train, y_train)
-        ml_y_pred = ModelEvaluator.evaluate(lasso_model, X_sc, y_true, "Lasso")
+        # Обучение и оценка всех моделей
+        for model_name, params in models_to_run:
+            print(f"\n=== Training {model_name} model ===")
 
-        print('\nLasso coefficients:', lasso_model.get_coefficients())
-        print('Lasso intercept:', lasso_model.get_intercept())
+            model = ModelFactory.create_model(model_name, model_storage, params)
+            model.train(X_train, y_train)
 
-        ModelEvaluator.save_results(ml_y_pred, y_true, prefix='lasso')
+            y_pred = ModelEvaluator.evaluate(model, X_sc, y_true, model_name)
+
+            # Сохранение feature importance для моделей, которые это поддерживают
+            feature_importances = getattr(model, 'get_feature_importances', lambda: None)()
+
+            ModelEvaluator.save_results(
+                y_pred, y_true,
+                feature_importances,
+                prefix=model_name
+            )
+
+            ModelEvaluator.print_prediction_stats(y_pred, y_true, model_name)
+
+            results[model_name] = {
+                'model': model,
+                'predictions': y_pred
+            }
 
         # Визуализация результатов
         drawer = Drawer()
-        drawer.plot_prediction(y_true, rfy_pred, title="RF Predictions", color="Blues")
-        drawer.plot_prediction(y_true, ml_y_pred, title="Lasso Predictions", color="Reds")
+        for model_name, result in results.items():
+            drawer.plot_prediction(
+                y_true, result['predictions'],
+                title=f"{model_name} Predictions",
+                color="viridis"
+            )
 
     except Exception as e:
         print("Ошибка в основном потоке выполнения:", e)
         raise
 
+
 if __name__ == "__main__":
-    main()
+    run_standard_models()

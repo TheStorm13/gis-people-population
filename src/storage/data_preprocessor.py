@@ -1,6 +1,7 @@
 import numpy as np
-from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
 
 class DataPreprocessor:
     def __init__(self, data):

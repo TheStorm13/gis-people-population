@@ -6,8 +6,8 @@ import joblib
 
 
 class ModelStorage:
-    def __init__(self, model_params, models_root="../../embeddings"):
-        self.params_hash = self.params_to_hash(model_params)
+    def __init__(self, models_root="../../embeddings"):
+        self.params_hash = ''
         self.models_root = Path(models_root)
         self.models_root.mkdir(exist_ok=True)
 

@@ -9,7 +9,7 @@ pd.set_option('display.width', None)
 DO_NOT_TOUCH = ['geometry']  # Пример
 
 # Колонки, которые нужно УДАЛИТЬ из конечных данных
-COLUMNS_TO_DROP = [ 'GlobalID',
+COLUMNS_TO_DROP = ['GlobalID',
                    'count_w_all', 'count_m_all', 'count_w_0_4', 'count_w_5_9', 'count_w_10_14',
                    'count_w_15_19', 'count_w_20_24', 'count_w_25_29', 'count_w_30_34',
                    'count_w_35_39', 'count_w_40_44', 'count_w_45_49', 'count_w_50_54',
@@ -81,6 +81,7 @@ def process_geojson(root_dir='.'):
     df.to_file(output_path_json, driver='GeoJSON')
     df.to_parquet(output_path_parquet, index=False)
     print(f"\nФайл сохранён: {output_path_json}")
+
 
 if __name__ == "__main__":
     process_geojson()

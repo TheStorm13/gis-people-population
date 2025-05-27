@@ -1,5 +1,7 @@
 from sklearn.linear_model import LinearRegression
-from .base_model import BaseModel
+
+from src.models.base_model import BaseModel
+
 
 class LinearRegressionModel(BaseModel):
     def __init__(self, model_storage):
