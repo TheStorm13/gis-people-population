@@ -7,7 +7,7 @@ class BaseModel(ABC):
     def __init__(self, model_storage, model_name):
         self.model_storage = model_storage
         self.model_name = model_name
-        self.params =  None
+        self.params = None
         self.model = None
         self.grid_search = None
 

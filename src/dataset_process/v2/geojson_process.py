@@ -75,6 +75,16 @@ def process_geojson(root_dir='.'):
     print("\nДанные после обработки:")
     print(df.head())
 
+    # Фильтруем данные, оставляя только 95% нижних значений
+    percentile = 0.99
+    threshold = df['peopleCount'].quantile(percentile)
+    filtered_df = df[df['peopleCount'] <= threshold]
+    print(f"\nКоличество объектов до фильтрации: {len(df)}")
+    print(f"Пороговое значение ({percentile} персентиль): {threshold}")
+    print(f"Количество объектов {percentile} персентиль: {len(filtered_df)}")
+
+    #df = filtered_df.copy()
+
     # Сохраняем результат
     output_path_json = "../../../data/processed/samara_people_model_processed.geojson"
     output_path_parquet = "../../../data/processed/samara_people_model_processed.parquet"

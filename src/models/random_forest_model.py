@@ -1,5 +1,4 @@
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import GridSearchCV
 
 from src.models.base_model import BaseModel
 
@@ -9,10 +8,9 @@ class RandomForestModel(BaseModel):
         super().__init__(model_storage, 'random_forest')
         self.params = params
 
-
     def train(self, X_train, y_train):
         if not self.load_model():
-            self.train_with_gridsearch(X_train, y_train,RandomForestRegressor(bootstrap=True, oob_score=True))
+            self.train_with_gridsearch(X_train, y_train, RandomForestRegressor(bootstrap=True, oob_score=True))
 
             print("Обучение новой модели RandomForest...")
             self.model = RandomForestRegressor(
@@ -23,7 +21,6 @@ class RandomForestModel(BaseModel):
             )
             self.model.fit(X_train, y_train)
             self.save_model()
-
 
     def get_feature_importances(self):
         if self.model is None:

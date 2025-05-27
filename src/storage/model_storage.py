@@ -14,7 +14,7 @@ class ModelStorage:
     def save_model(self, model, model_name):
         """Сохраняет модель и метаданные"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        model_dir = self.models_root / f"{model_name}_{self.params_hash}"
+        model_dir = self.models_root / f"{model_name}"
         model_dir.mkdir(exist_ok=True)
 
         # Сохраняем модель
@@ -39,7 +39,7 @@ class ModelStorage:
     def load_latest_model(self, model_name):
         """Загружает последнюю версию модели по имени"""
         # Ищем все директории, начинающиеся с имени модели
-        model_dirs = [d for d in self.models_root.glob(f"{model_name}_*") if d.is_dir()]
+        model_dirs = [d for d in self.models_root.glob(f"{model_name}") if d.is_dir()]
         if not model_dirs:
             return None
 

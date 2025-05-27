@@ -37,7 +37,7 @@ def run_standard_models():
             ('linear_regression', Config.get_model_params('linear_regression')),
             ('xgboost', Config.get_model_params('xgboost')),
             ('gradient_boosting', Config.get_model_params('gradient_boosting')),
-            #('svr', Config.get_model_params('svr'))
+            # ('svr', Config.get_model_params('svr'))
         ]
 
         results = {}
